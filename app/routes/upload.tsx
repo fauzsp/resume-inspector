@@ -64,7 +64,8 @@ const upload = () => {
     response.feedback = parsedResponse;
     await kv.set(`resume:${uuid}`, JSON.stringify(response));
     setStatus("Resume analyzed successfully!");
-    console.log(response, 'response')
+    console.log(response, 'response');
+    navigate(`/resume/${uuid}`);
   }
   return (
     <main className="bg-[url('/images/bg-main.svg')] bg-cover">
