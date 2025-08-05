@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import Ats from "~/components/Ats";
+import Details from "~/components/Details";
 import Summary from "~/components/Summary";
 import { usePuterStore } from "~/lib/puter";
 
@@ -29,7 +30,8 @@ const Resume = () => {
         if(!imgBlob) return;
         const imgUrl = URL.createObjectURL(new Blob([imgBlob], { type: 'image/jpeg' }));
         setImgUrl(imgUrl);
-        setFeedback(data.feedback || "No feedback available.");
+        const feedbackJson = {feedback: JSON.parse(data.feedback.slice(data.feedback.indexOf("{")))};
+        setFeedback(feedbackJson || "No feedback available.");
     };
       useEffect(() => {
     if (!isLoading && !auth.isAuthenticated) {
@@ -61,7 +63,7 @@ const Resume = () => {
             <h2 className="text-4xl !text-black font-bold">Resume Analysis</h2>
             {feedback ? <div className="flex flex-col gap-8 animate-in fade-in duration-1000">
             <Summary feedback={feedback} />
-            <Ats feedback={feedback.ATS.score || 0} suggestions={feedback.padStart.tips || []} />
+            <Ats feedback={feedback} />
             <Details feedback={feedback} />
             </div> : <img src="/images/resume-scan-2.gif" alt="Loading..." className="w-full" />}
         </section>

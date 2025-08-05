@@ -60,7 +60,7 @@ const upload = () => {
     if(!feedback) return setStatus("Failed to analyze resume. Please try again.");
     const feedbackData = typeof feedback.message.content === "string" ? feedback.message.content : feedback.message.content[0].text;
     const cleanedString = feedbackData.replace(/\\"/g, '"').replace(/\\n/g, '').replace(/^"(.*)"$/, '$1');
-    const parsedResponse = JSON.parse(cleanedString);
+    const parsedResponse = cleanedString;
     response.feedback = parsedResponse;
     await kv.set(`resume:${uuid}`, JSON.stringify(response));
     setStatus("Resume analyzed successfully!");

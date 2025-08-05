@@ -1,7 +1,42 @@
-const Summary = ({feedback}: Feedback) => {
-  return (
-    <div>Summary</div>
-  )
-}
+import ScoreBadge from "./ScoreBadge";
+import ScoreGauge from "./ScoreGauge";
 
-export default Summary
+const Category = ({ title, score }: { title: string; score: number }) => {
+     const textColor = score > 70 ? 'text-green-600'
+            : score > 49
+        ? 'text-yellow-600' : 'text-red-600';
+    return (
+      <div className="resume-summary">
+       <div className="category">
+        <div className="flex flex-row gap-2 items-center justify-center"><p className="text-2xl">{title}</p>
+        <ScoreBadge score={score} />
+        </div>
+            <p className="text-2xl">
+                <span className={textColor}>{score}</span>/100
+            </p>
+       </div>
+      </div>
+  );
+};
+const Summary = ({ feedback }: { feedback: Feedback }) => {
+  return (
+    <div className="bg-white rounded-2xl shadow-md w-full">
+      <div className="flex flex-row items-center p-4 gap-8">
+        <ScoreGauge score={feedback.feedback.overallScore} />
+        <div className="flex flex-col gap-2">
+          <h2 className="text-2xl font-bold">Here is your resume score</h2>
+          <p className="text-sm text-gray-500">
+            This is the result of our analysis based on the job description you
+            provided.
+          </p>
+        </div>
+      </div>
+      <Category title="Overall Score" score={feedback.feedback.toneAndStyle.score} />
+      <Category title="Content" score={feedback.feedback.content.score} />
+      <Category title="Structure" score={feedback.feedback.structure.score} />
+      <Category title="Skills" score={feedback.feedback.skills.score} />
+    </div>
+  );
+};
+
+export default Summary;
